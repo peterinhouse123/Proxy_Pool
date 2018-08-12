@@ -12,17 +12,18 @@ class Net:
     def Get(self,url,header_string="",cookie="",SSL_verify=0,timeout=5,proxy_ip=None):
 
         header_dict = self.get_header_dict(header_string)
-
-        if proxy_ip != None:
-            proxies = {
-                "http": "http://{}".format(proxy_ip),
-                "https": "http://{}".format(proxy_ip),
-            }
-            rs = requests.get(url, headers=header_dict, verify=SSL_verify, cookies=cookie, timeout=timeout,
-                              proxies=proxies)
-        else:
-            rs = requests.get(url, headers=header_dict, verify=SSL_verify, cookies=cookie, timeout=timeout)
-
+        try:
+            if proxy_ip != None:
+                proxies = {
+                    "http": "http://{}".format(proxy_ip),
+                    "https": "http://{}".format(proxy_ip),
+                }
+                rs = requests.get(url, headers=header_dict, verify=SSL_verify, cookies=cookie, timeout=timeout,
+                                  proxies=proxies)
+            else:
+                rs = requests.get(url, headers=header_dict, verify=SSL_verify, cookies=cookie, timeout=timeout)
+        except:
+            return None
 
 
         return rs
